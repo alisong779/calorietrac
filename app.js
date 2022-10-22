@@ -91,7 +91,14 @@ const App = (function(ItemCtrl, UICtrl){
     const itemAddSubmit = function(e){
         //get form input from UI controller
         const input = UICtrl.getItemInput();
-        console.log(input);
+
+        //check inputs
+        if(input.name === '' || input.calories === ''){
+            alert('Enter Missing Values');
+        }else{
+            console.log('ok');
+        }
+
         e.preventDefault();
     }
 
