@@ -24,13 +24,33 @@ const ItemCtrl = (function(){
     return {
         getItems: function(){
             return data.items;
-        }
-    }
-    return {
+        },
+        addItem: function(name, calories){
+            
+            let ID;
+            //create ID 
+            if(data.items.length > 0){
+                ID = data.items[data.items.length-1].id + 1;
+            }else{
+                ID = 0;
+            }
+
+            //calories to number
+            calories = parseInt(calories);
+
+            //create new item
+            newItem = new Item(ID, name, calories);
+
+            //push new item to data
+            data.items.push(newItem);
+
+            return newItem;
+        },
         logData: function(){
             return data;
         }
     }
+    
     
 })();
 
@@ -93,10 +113,12 @@ const App = (function(ItemCtrl, UICtrl){
         const input = UICtrl.getItemInput();
 
         //check inputs
-        if(input.name === '' || input.calories === ''){
-            alert('Enter Missing Values');
+        if(input.name !== '' && input.calories !== ''){
+           //add the item
+           const newItem = ItemCtrl.addItem(input.name, input.calories);
         }else{
-            console.log('ok');
+            //alert
+            alert('Enter Missing Values');
         }
 
         e.preventDefault();
