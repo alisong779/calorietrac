@@ -39,7 +39,8 @@ const ItemCtrl = (function(){
 //UI Controller
 const UICtrl = (function(){
     const UISelectors = {
-        itemList: '#item-list'
+        itemList: '#item-list',
+        addBtn: '.add-btn'
     }
 
     //public methods
@@ -55,8 +56,11 @@ const UICtrl = (function(){
 
             //insert list items in UI
             document.querySelector(UISelectors.itemList).innerHTML=html;
+        },
+        
+        getSelectors: function(){
+            return UISelectors;
         }
-
     } 
 })();
 
@@ -64,6 +68,21 @@ const UICtrl = (function(){
 
 //App Controller
 const App = (function(ItemCtrl, UICtrl){
+
+    //load event listeners
+    const loadEventListeners = function(){
+        //get UI selectors
+        const UISelectors = UICtrl.getSelectors();
+
+        //add item event
+        document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
+    }
+
+    //add items submit
+    const itemAddSubmit = function(e){
+        console.log('Add');
+        e.preventDefault();
+    }
 
     //public methods
     return {
@@ -73,6 +92,9 @@ const App = (function(ItemCtrl, UICtrl){
 
             //populate list with items
             UICtrl.populateItemList(items);
+
+            //load event listeners
+            loadEventListeners();
         }
     }
     
