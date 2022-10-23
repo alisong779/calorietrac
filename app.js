@@ -73,6 +73,19 @@ const ItemCtrl = (function(){
             return found;
         },
 
+        deleteItem: function(id){
+            //get ids
+            ids = data.items.map(function(item){
+                return item.id;
+            });
+
+            //get index
+            const index = ids.indexOf(id);
+            //remove item
+            data.items.splice(index, 1);
+
+        },
+
         setCurrentItem: function(item){
             data.currentItem = item;
         },
@@ -173,6 +186,12 @@ const UICtrl = (function(){
             })
         },
 
+        deleteListItem(id){
+            const itemID = `#item-${id}`;
+            const item = document.querySelector(itemID);
+            item.remove();
+        },
+
         clearInput: function(){
             document.querySelector(UISelectors.itemNameInput).value = '';
             document.querySelector(UISelectors.itemCaloriesInput).value = '';
@@ -242,6 +261,9 @@ const App = (function(ItemCtrl, UICtrl){
         //update item event
         document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
 
+        //delete item event
+        document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit);
+
         //back btn event
         document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.clearEditState);
     }
@@ -309,6 +331,29 @@ const App = (function(ItemCtrl, UICtrl){
         UICtrl.clearEditState();
 
         e.preventDefault();
+    }
+
+    //delete button event
+    const itemDeleteSubmit = function(e){
+        //getcurrent item
+        const currentItem = ItemCtrl.getCurrentItem();
+        //delete from data structure
+        ItemCtrl.deleteItem(currentItem.id);
+
+        //delete from UI
+        UICtrl.deleteListItem(currentItem.id);
+
+        //get total calories
+        const totalCalories = ItemCtrl.getTotalCalories();
+
+        //add total calories to UI
+        UICtrl.showTotalCalories(totalCalories);
+
+        UICtrl.clearEditState();
+
+
+        e.preventDefault();
+
     }
 
     //public methods
