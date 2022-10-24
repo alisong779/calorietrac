@@ -48,6 +48,9 @@ const StorageCtrl = (function(){
                 }
             });
             localStorage.setItem('items', JSON.stringify(items));
+        },
+        clearItemsFromStorage: function(){
+            localStorage.removeItem('items');
         }
     }
 })();//iifee - immediatly invoked function expression
@@ -448,6 +451,9 @@ const App = (function(ItemCtrl, StorageCtrl, UICtrl){
 
         //remove from UI
         UICtrl.removeItems();
+
+        //clear from local storage
+        StorageCtrl.clearItemsFromStorage;
 
         //hide UL
         UICtrl.hideList();        
