@@ -38,6 +38,16 @@ const StorageCtrl = (function(){
                 }
             });
             localStorage.setItem('items', JSON.stringify(items));
+        },
+        deleteItemFromStorage: function(id){
+            let items = JSON.parse(localStorage.getItem('items'));
+
+            items.forEach(function(item, index){
+                if(id === item.id) {
+                    items.splice(index, 1);
+                }
+            });
+            localStorage.setItem('items', JSON.stringify(items));
         }
     }
 })();//iifee - immediatly invoked function expression
@@ -414,6 +424,9 @@ const App = (function(ItemCtrl, StorageCtrl, UICtrl){
 
         //add total calories to UI
         UICtrl.showTotalCalories(totalCalories);
+
+        //delete from local storage
+        StorageCtrl.deleteItemFromStorage(currentItem.id);
 
         UICtrl.clearEditState();
 
