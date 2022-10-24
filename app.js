@@ -6,7 +6,7 @@ const StorageCtrl = (function(){
         let items = [];
         //check for items in storage
         if(localStorage.getItem('items') === null){
-            items = [];
+            let items;
             //push new items
             items.push(item);
             //set local storage item, convert to string
@@ -18,8 +18,16 @@ const StorageCtrl = (function(){
             items.push(item);
             //reset local storage, convert to string
             localStorage.setItem('items', JSON.stringify(items));
-        }
-
+            }
+        },
+        getItemsFromStorage: function(){
+            let items;
+            if (localStorage.getItem('items') === null){
+                items = [];
+            }else{
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+            return items;
         }
     }
 })();//iifee - immediatly invoked function expression
@@ -35,11 +43,12 @@ const ItemCtrl = (function(){
 
     //data structure / state
     const data = {
-        items: [
+        //items: [
             //{id: 0, name: 'Steak Dinner', calories: 800},
             //{id: 1, name: 'Cookie', calories: 300},
             //{id: 2, name: 'Eggs', calories: 200},
-        ],
+        //],
+        items: StorageCtrl.getItemsFromStorage(),
         currentItem: null,
         totalCalories: 0
     }
